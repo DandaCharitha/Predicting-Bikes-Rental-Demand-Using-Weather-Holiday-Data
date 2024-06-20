@@ -12,7 +12,7 @@ With the growing demand and user base for bike-sharing system, providing the cit
 
 The dataset has 8760 data points and each of them are representing weather and holiday information which are possible major factors in hiring a bike. The observations in the dataset were recorded during a span of 365 days, from December 2017 to November 2018. The dataset contains 14 attributes, 10 numerical and 3 categorical and 1 time series values.
 
-###### Target values: Rented Bike count - Count of bikes rented at each hour.
-###### Feature attributes: Date: year-month-day, Rented Bike count — Count of bikes rented at each hour, Hour — Hour of the day, Temperature-Temperature in Celsius, Humidity — %, Windspeed — m/s, Visibility — 10m, Dew point temperature — Celsius, Solar radia1on — MJ/m2, Rainfall — mm, Snowfall — cm, Seasons — Winter, Spring, Summer, Autumn, Holiday — Holiday/No holiday, Func1onal Day — NoFunc (Non-Func1onal Hours), Fun(Func1onal hours).
+##### Target values: Rented Bike count - Count of bikes rented at each hour.
+##### Feature attributes: Date: year-month-day, Rented Bike count — Count of bikes rented at each hour, Hour — Hour of the day, Temperature-Temperature in Celsius, Humidity — %, Windspeed — m/s, Visibility — 10m, Dew point temperature — Celsius, Solar radia1on — MJ/m2, Rainfall — mm, Snowfall — cm, Seasons — Winter, Spring, Summer, Autumn, Holiday — Holiday/No holiday, Func1onal Day — NoFunc (Non-Func1onal Hours), Fun(Func1onal hours).
 
 ## Method
