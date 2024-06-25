@@ -38,6 +38,7 @@ bike_data$functioning_day <- factor(bike_data$functioning_day)
 #____________________________
 # Studying Data
 #____________________________
+
 head(bike_data)
 str(bike_data)
 summary(bike_data)
@@ -59,49 +60,50 @@ fig1 <- ggplot(bike_data, aes(x = as.factor(functioning_day), y = bike_count)) +
   theme(plot.title = element_text(size=14, face="bold", hjust=0.5))
 fig1
 
-#The bikes will not be available to rent during non functioning days and therefore, bike count will be zero on non functioning day as no one will be able to rent the bicycles as seen in Fig 1. 
-#Therefore, non-functioning day data points are deleted from the dataset as this is not relevant to our purpose. 
-#The data set is now left with 8465 data points.
+# The bikes will not be available to rent during non functioning days and therefore, bike count will be zero on non functioning day as no one will be able to rent the bicycles as seen in Fig 1. 
+# Therefore, non-functioning day data points are deleted from the dataset as this is not relevant to our purpose. 
+# The data set is now left with 8465 data points.
 
 # Deleting rows when it is non-functioning day
 bike_data <-bike_data[!(bike_data$functioning_day=="No"),]
 
-# removing unused columns
+# Removing unused columns
 bike_data <- subset(bike_data, select = - c(functioning_day))
 
 summary(bike_data)
-#Summary statistics of the dataset shows general idea of how the data is without non-functioning days look like. 
-#This will be further analysed with bar plots and histograms.
+
+# Summary statistics of the dataset shows general idea of how the data is without non-functioning days look like. 
+# This will be further analysed with bar plots and histograms.
 
 fig2<- ggplot(bike_data, aes(x = as.factor(hour) , y = bike_count)) + geom_boxplot(fill="slateblue", alpha=0.2) + 
   ggtitle("Hourly Bike Count Bar Plot") +  xlab("Hour") + ylab("Bike Count") +
   theme(plot.title = element_text(size=14, face="bold", hjust=0.5))
 fig2
 
-#Fig 2. Hourly Bike Count Bar Plot indicates the numbers of bikes rented by hour. The mean demand is lower than 500 bike counts for hours between 1 am 
-#and 6 am. We can see huge spike in boxplot at 8 which is 8 am in the morning, and we can see slowly increasing pattern in boxplot throughout daytime 
-#reaching huge peak at 18 which is 6pm. we can see bike renting starts to decrease after 18 and reached lowest at 4. All the am hours except 8 am and 7 
-#am has demand of lower than 1000 bike counts.Therefore, we take am hours as low demand hours and pm hours as high demand hours.
+# Fig 2. Hourly Bike Count Bar Plot indicates the numbers of bikes rented by hour. The mean demand is lower than 500 bike counts for hours between 1 am 
+# and 6 am. We can see huge spike in boxplot at 8 which is 8 am in the morning, and we can see slowly increasing pattern in boxplot throughout daytime 
+# reaching huge peak at 18 which is 6pm. we can see bike renting starts to decrease after 18 and reached lowest at 4. All the am hours except 8 am and 7 
+# am has demand of lower than 1000 bike counts.Therefore, we take am hours as low demand hours and pm hours as high demand hours.
 
 fig3 <- ggplot(bike_data, aes(x = as.factor(seasons), y = bike_count)) + geom_boxplot(fill="slateblue", alpha=0.2) +
   ggtitle("Seasonal Bike Count Bar Plot") +  xlab("Seasons") + ylab("Bike Count") +
   theme(plot.title = element_text(size=14, face="bold", hjust=0.5))
 fig3
 
-#From Fig 3. Seasonal Bike Count Bar Plot, we can see the comparisons of bike renting by seasons. we can easily infer that during better weather 
-#times such as summer, people usually prefer to cycle more and in winters bikes are rented lowest with well lower than 500 bike counts in demand. 
-#This may be due to cold weather as well as snow during winter. There are a few outliers with higher density than the rest of the seasons where bike 
-#demand in Winter is over 500. This may be some underlying reasons such as the day having better weather than other days in winter. In Autumn, bike 
-#demand is higher than Spring though we were expecting the demand to be higher in Spring than in Autumn. 
-#This may be due to having more rainy days in Spring than in Autumn.
+# From Fig 3. Seasonal Bike Count Bar Plot, we can see the comparisons of bike renting by seasons. we can easily infer that during better weather 
+# times such as summer, people usually prefer to cycle more and in winters bikes are rented lowest with well lower than 500 bike counts in demand. 
+# This may be due to cold weather as well as snow during winter. There are a few outliers with higher density than the rest of the seasons where bike 
+# demand in Winter is over 500. This may be some underlying reasons such as the day having better weather than other days in winter. In Autumn, bike 
+# demand is higher than Spring though we were expecting the demand to be higher in Spring than in Autumn. 
+# This may be due to having more rainy days in Spring than in Autumn.
 
 fig4 <- ggplot(bike_data, aes(x = as.factor(holiday), y = bike_count)) + geom_boxplot(fill="slateblue", alpha=0.2) + 
   ggtitle("Holiday Bike Count Bar Plot") +  xlab("Holiday") + ylab("Bike Count") +
   theme(plot.title = element_text(size=14, face="bold", hjust=0.5))
 fig4
 
-#According to figure 4, we can determine that the demand for bike is higher on non holiday days, which means mostly our users might be renting bikes 
-#for other reasons than for recreational purposes.
+# According to figure 4, we can determine that the demand for bike is higher on non holiday days, which means mostly our users might be renting bikes 
+# for other reasons than for recreational purposes.
 
 #_________________________________
 # Correlation matrix of dataset
@@ -158,26 +160,25 @@ multi.hist <- function(bike_data) {
 # Calling the function with your numeric data
 multi.hist(bike_data[,sapply(bike_data, is.numeric)])
 
-#Above are the histograms of continuous data to determine the shape of the variables. It can be seen that bike_count values are right-skewed. 
-#There are a lot of hours with temperature below zero, which we expect these hours to have lower demand for bike rentals. The humidity histogram shows 
-#most of the days. Dew point temperature shows similar distribution to temperature. Solar radiation is 0 on most hours with very few hours with extrememe 
-#values. Rainfall and snowfall data is extremely skewed to the right with very few hours with high levels of rain and snow. 
-#The temperature shows signs of having a bimodal distribution.
+# Above are the histograms of continuous data to determine the shape of the variables. It can be seen that bike_count values are right-skewed. 
+# There are a lot of hours with temperature below zero, which we expect these hours to have lower demand for bike rentals. The humidity histogram shows 
+# most of the days. Dew point temperature shows similar distribution to temperature. Solar radiation is 0 on most hours with very few hours with extrememe 
+# values. Rainfall and snowfall data is extremely skewed to the right with very few hours with high levels of rain and snow. 
+# The temperature shows signs of having a bimodal distribution.
 
 #________________________
 # Modelling
 #_________________________
 
 # Model 1
-#Model 1 is a multiple linear regression model predicting bike rental demand for every hour using hourly weather conditions. For this model, 
-#the dataset is used as it is without changing anything. 
-#Data is splitted into 80-20 to build the model.
+# Model 1 is a multiple linear regression model predicting bike rental demand for every hour using hourly weather conditions. For this model, 
+# the dataset is used as it is without changing anything. 
+# Data is splitted into 80-20 to build the model.
 
-# Data spliting
+# Data spliting for Model 1
 # Data is splitted to 80% train set and 20% test set. This is to minimise overfitting. Data is splitted by random selection using sample() method.
 
 # Randomizing dataset
-
 ## 80% of the sample size
 smp_size <- floor(0.80 * nrow(bike_data))
 
@@ -190,7 +191,7 @@ model1 <- bike_data[ trainIndex,]
 
 # After splitting the data, train dataset is fitted to the model.
 
-# Regression model with all columns original data
+# Regression model with all columns(original data)
 row.names(model1) <- NULL
 
 original_full = lm(bike_count ~ hour+temp+humidity+wind_speed+visibility+dew_point_temp+
@@ -245,7 +246,7 @@ durbinWatsonTest(original_final)
 
 # BoxCox transformation
 
-# removing One outlier
+# Removing One outlier
 model1_BC <- model1[-c(6040), ] # removing Outlier
 
 
@@ -274,7 +275,7 @@ for (i in colnames(model1_BC)){
 
 # Final Model 1
 
-# fitting new model
+# Fitting new model
 model1_BC_fit = lm(bike_count ~ hour + temp + humidity + solar_radiation + 
                      rainfall + snowfall + seasons + holiday, data=model1_BC
 )
@@ -298,7 +299,7 @@ plot(model1_BC_fit , which=1:4)
 # non-constant error variance test
 ncvTest(model1_BC_fit)
 
-#P-value is less than 0.05, implying that the constant error variance assumption is still violated after box-cox transformation.
+# P-value is less than 0.05, implying that the constant error variance assumption is still violated after box-cox transformation.
 
 # Test for Autocorrelated Errors
 durbinWatsonTest(model1_BC_fit)
@@ -315,7 +316,7 @@ durbinWatsonTest(model1_BC_fit)
 # Model 2 is a multiple linear regression model predicting bike rental demand using average daily weather conditions. For this model, bike demand for 
 # each day and average daily weather conditions are calculated. Data will be splitted to 80-20 train and test dataset to build the model.
 
-# creating dataframe for bike count by date
+# Creating dataframe for bike count by date
 bike_by_day <- bike_data
 levels(bike_by_day$holiday) <- c("No Holiday" = 1, "Holiday"= 2)
 levels(bike_by_day$seasons) <- c("Winter" = 1, "Spring"= 2, "Summer" = 3, "Autumn" = 4)
@@ -327,19 +328,18 @@ bike_by_day <- bike_by_day %>% group_by(date) %>% summarise(sum_bike_count = sum
                                                             mean_rainfall = mean(rainfall), mean_snowfall = mean(snowfall), 
                                                             seasons = mean(as.numeric(seasons)), holiday = mean(as.numeric(holiday)))
 
-#Changing the factors back to original values 
+# Changing the factors back to original values 
 bike_by_day$holiday <- as.factor(bike_by_day$holiday)
 bike_by_day$seasons <- as.factor(bike_by_day$seasons)
 levels(bike_by_day$holiday) <- c('1'= 'No Holiday', '2'='Holiday')
 levels(bike_by_day$seasons) <- c('1'= 'Winter' , '2'='Spring', '3'= 'Summer', '4'='Autumn')
 head(bike_by_day)
 
-# Data Splitting
+# Data Splitting for Model 2
 
 # Data is splitted to 80% train set and 20% test set. This is to minimise overfitting. Data is splitted by random selection using sample() method.
 
 # Randomising our dataset
-
 ## 75% of the sample size
 smp_size <- floor(0.80 * nrow(bike_by_day))
 
@@ -352,7 +352,7 @@ model2 <- bike_by_day[ trainIndex,]
 
 # After splitting the data, train dataset is fitted to the model.
 
-# regression model by day 
+# Regression model by day 
 bike_by_day_model = lm(sum_bike_count ~ mean_temp + mean_humidity + mean_wind_speed + mean_visibility + mean_dew_point_temp + mean_solar_radiation + 
                          mean_rainfall + mean_snowfall + seasons + holiday, data=model2)
 
@@ -362,7 +362,7 @@ summary(bike_by_day_model)
 # This model can explain 0.8434 and is statistically significant as p-value is < 0.05. However, it shows that there are some factors that are not 
 # statistically significant. Stepwise AIC is used to calculate an optimum model for prediction.
 
-# possible subsets regression 
+# Possible subsets regression 
 stepReg=MASS::stepAIC(bike_by_day_model, direction="both")
 
 stepReg$anova
@@ -441,7 +441,7 @@ for (i in colnames(bike_by_day_BC)){
 
 # Final Model2
 
-# fitting new model
+# Fitting new model
 bike_by_day_BC_fit = lm(sum_bike_count ~ mean_temp + mean_humidity + mean_wind_speed + 
                           mean_solar_radiation + mean_rainfall + seasons + holiday, 
                         data = bike_by_day_BC)
@@ -495,7 +495,7 @@ bike_AMPM$hour <- factor(bike_AMPM$hour)
 
 head(bike_AMPM)
 
-# creating dataframe for bike count by am pm
+# Creating dataframe for bike count by am pm
 levels(bike_AMPM$holiday) <- c("No Holiday" = 1, "Holiday"= 2)
 levels(bike_AMPM$seasons) <- c("Winter" = 1, "Spring"= 2, "Summer" = 3, "Autumn" = 4)
 
@@ -505,25 +505,24 @@ bike_AMPM <- bike_AMPM %>% group_by(date,hour) %>% summarise(bike_count = sum(bi
                                                              rainfall = mean(rainfall), snowfall = mean(snowfall), 
                                                              seasons = mean(as.numeric(seasons)), holiday = mean(as.numeric(holiday)))
 
-#Changing the factors back to original values 
+# Changing the factors back to original values 
 bike_AMPM$holiday <- as.factor(bike_AMPM$holiday)
 bike_AMPM$seasons <- as.factor(bike_AMPM$seasons)
 levels(bike_AMPM$holiday) <- c('1'= 'No Holiday', '2'='Holiday')
 levels(bike_AMPM$seasons) <- c('1'= 'Winter' , '2'='Spring', '3'= 'Summer', '4'='Autumn')
 
-#Drop date column
+# Dropping date column
 bike_AMPM <- subset(bike_AMPM, select = -c(date))
 
 head(bike_AMPM)
 
 # Model 3 Data Splitting
 
-#Randomise our dataset
-
+# Randomising our dataset
 ## 80% of the sample size
 smp_size <- floor(0.80 * nrow(bike_AMPM))
 
-## set the seed to make your partition reproducible
+## setting the seed to make your partition reproducible
 set.seed(123)
 trainIndex <- sample(seq_len(nrow(bike_AMPM)), size = smp_size)
 
@@ -536,16 +535,16 @@ am_pm_model = lm(bike_count ~ hour+temp+humidity+wind_speed+visibility+dew_point
 #summary
 summary(am_pm_model)
 
-#Building ANOVA table with full dataset (all columns) against intercept only model
+# Building ANOVA table with full dataset (all columns) against intercept only model
 anova(am_pm_model)
 
-# possible subsets regression
+# Possible subsets regression
 library(MASS)
 stepReg=MASS::stepAIC(am_pm_model, direction="both")
 
 stepReg$anova
 
-# multicollinearity
+# Multicollinearity
 car::vif(am_pm_model)
 
 # Stepwise method produced a final regression model without temperature, snowfall and visibility. dew_point_temp and temp GVIF values are greater 
@@ -623,7 +622,7 @@ for (i in colnames(bike_AMPM_BC)){
 
 # Final Model 3
 
-# fitting new model
+# Fitting new model
 bike_AMPM_BC_fit = lm(bike_AMPM_BC$bike_count ~ bike_AMPM_BC$hour + 
                         bike_AMPM_BC$humidity + 
                         bike_AMPM_BC$wind_speed + 
@@ -671,7 +670,7 @@ shapiro.test(bike_AMPM_BC_fit$residuals)
 # weather conditions. We expect bike demand will be higher during weekends as more people will be hiring them for recreational purposes and 
 # this will be one of the factors.
 
-#Creating weekend colum
+# Creating weekend colum
 bike_by_day$date <- as.Date(bike_by_day$date, "%d/%m/%y")
 bike_by_day$weekend = chron::is.weekend(bike_by_day$date)
 bike_by_day$weekend <- as.factor(bike_by_day$weekend)
@@ -690,24 +689,23 @@ fig5
 # selection using sample() method.
 
 #Randomising our dataset
-
 ## 75% of the sample size
 smp_size <- floor(0.90 * nrow(bike_by_day))
 
-## set the seed to make your partition reproducible
+## setting the seed to make your partition reproducible
 set.seed(500)
 trainIndex <- sample(seq_len(nrow(bike_by_day)), size = smp_size)
 
 model4_prediction <- bike_by_day[ -trainIndex,]
 model4 <- bike_by_day[ trainIndex,]
 
-# regression model by day with Weekend
+# Regression model by day with Weekend
 bike_weekend_model = lm(sum_bike_count ~ mean_temp + mean_humidity + mean_wind_speed + mean_visibility + mean_dew_point_temp + mean_solar_radiation + mean_rainfall + mean_snowfall + seasons + holiday+ weekend, data=model4)
 
 #summary
 summary(bike_weekend_model)
 
-# possible subsets regression (by day and weekend)
+# Possible subsets regression (by day and weekend)
 library(MASS)
 stepReg=MASS::stepAIC(bike_weekend_model, direction="both")
 
